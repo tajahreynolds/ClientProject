@@ -8,3 +8,5 @@ Developers: TaJah Reynolds, Tingzhao Wang, Will Sliwinsky
 Testers: Gina Krynski, Yi Zeng, Will Sliwinski
 
 Project Domain: Books
+
+Code Repository: https://github.com/tajahreyonlds/ClientProject/
