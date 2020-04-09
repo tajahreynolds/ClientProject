@@ -34,7 +34,7 @@ public class Iteration1 {
 		
 		System.out.println();
 		for (Books it : bookList) {
-			if (it.getAuthor().equals("Michael"))
+			if (it.getAuthor().contains("Michael"))
 				System.out.println(it.toString());
 		}
 	}

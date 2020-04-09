@@ -34,10 +34,13 @@ class Tester {
 		}
 		
 		System.out.println();
+		String output2 = "";
 		for (Books it : bookList) {
-			if (it.getAuthor().equals("Michael"))
-				assertEquals("Books [bookId=3, catalogId=3, title=test2, author=Michael, publishDate=November 25, 20020, pageCount=500]", it.toString());
+			if (it.getAuthor().contains("Michael"))
+				output2 = output2 + it.toString();
 		}
+		assertEquals("Books [bookId=1, catalogId=1, title=Prey, author=Michael Crichton, publishDate=November 25, 2002, pageCount=502]" + 
+					"Books [bookId=3, catalogId=3, title=test2, author=Michael, publishDate=November 25, 20020, pageCount=500]", output2);
 		
 	}
 
