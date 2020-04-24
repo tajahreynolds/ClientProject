@@ -1,6 +1,6 @@
 package Main;
 
-public class Books {
+public class Book {
 	
 	private int bookId;
 	private int catalogId;
@@ -9,7 +9,7 @@ public class Books {
 	private String publishDate;
 	private int pageCount;
 
-	public Books(int bookId, int catalogId, String title, String author, String publishDate, int pageCount) {
+	public Book(int bookId, int catalogId, String title, String author, String publishDate, int pageCount) {
 		this.bookId = bookId;
 		this.catalogId = catalogId;
 		this.title = title;
@@ -19,13 +19,13 @@ public class Books {
 	}
 	
 	public String prepInsertQuery() {
-		return String.format("INSERT INTO Books (catalogId, title, author, publishDate, pageCount) VALUES"
+		return String.format("INSERT INTO Book (catalogId, title, author, publishDate, pageCount) VALUES"
 				+ "('%d' '%s' '%s' '%s' '%d')", catalogId, title, author, publishDate, getPageCount());
 	}
 	
 	@Override
 	public String toString() {
-		return "Books [bookId=" + bookId + ", catalogId=" + catalogId + ", title=" + title + ", author=" + author
+		return "Book [bookId=" + bookId + ", catalogId=" + catalogId + ", title=" + title + ", author=" + author
 				+ ", publishDate=" + publishDate + ", pageCount=" + getPageCount() + "]";
 	}
 
