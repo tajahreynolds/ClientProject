@@ -8,25 +8,27 @@ public class Book {
 	private String author;
 	private String publishDate;
 	private int pageCount;
+	private boolean read;
 
-	public Book(int bookId, int catalogId, String title, String author, String publishDate, int pageCount) {
+	public Book(int bookId, int catalogId, String title, String author, String publishDate, int pageCount, boolean read) {
 		this.bookId = bookId;
 		this.catalogId = catalogId;
 		this.title = title;
 		this.author = author;
 		this.publishDate = publishDate;
 		this.setPageCount(pageCount);
+		this.read = read;
 	}
 	
 	public String prepInsertQuery() {
-		return String.format("INSERT INTO Book (catalogId, title, author, publishDate, pageCount) VALUES"
-				+ "('%d' '%s' '%s' '%s' '%d')", catalogId, title, author, publishDate, getPageCount());
+		return String.format("INSERT INTO Book (catalogId, title, author, publishDate, pageCount, read) VALUES"
+				+ "('%d' '%s' '%s' '%s' '%d' '%s')", catalogId, title, author, publishDate, getPageCount(), read);
 	}
 	
 	@Override
 	public String toString() {
 		return "Book [bookId=" + bookId + ", catalogId=" + catalogId + ", title=" + title + ", author=" + author
-				+ ", publishDate=" + publishDate + ", pageCount=" + getPageCount() + "]";
+				+ ", publishDate=" + publishDate + ", pageCount=" + getPageCount() + ", read=" + read + "]";
 	}
 
 	int getPageCount() {
@@ -75,6 +77,20 @@ public class Book {
 
 	public void setPublishDate(String publishDate) {
 		this.publishDate = publishDate;
+	}
+	
+	public boolean getRead() {
+		return read;
+	}
+	
+	//for this I don't really see a point to actually asking for a parameter, the only time
+	//you'd ever be calling it is if you want to set the bool to the opposite of what it
+	//currently is
+	public void setRead() {
+		if (read == true)
+			read = false;
+		if (read == false)
+			read = true;
 	}
 	
 }
