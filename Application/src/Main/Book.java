@@ -10,7 +10,7 @@ public class Book {
 	private int pageCount;
 	private boolean read;
 
-	public Book(int bookId, int catalogId, String title, String author, String publishDate, int pageCount) {
+	public Book(int bookId, int catalogId, String title, String author, String publishDate, int pageCount, boolean read) {
 		this.bookId = bookId;
 		this.catalogId = catalogId;
 		this.title = title;
