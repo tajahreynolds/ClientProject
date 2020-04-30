@@ -10,14 +10,14 @@ public class Book {
 	private int pageCount;
 	private boolean read;
 
-	public Book(int bookId, int catalogId, String title, String author, String publishDate, int pageCount, boolean read) {
+	public Book(int bookId, int catalogId, String title, String author, String publishDate, int pageCount) {
 		this.bookId = bookId;
 		this.catalogId = catalogId;
 		this.title = title;
 		this.author = author;
 		this.publishDate = publishDate;
 		this.setPageCount(pageCount);
-		this.read = read;
+		this.read = false;
 	}
 	
 	public String prepInsertQuery() {
@@ -87,10 +87,7 @@ public class Book {
 	//you'd ever be calling it is if you want to set the bool to the opposite of what it
 	//currently is
 	public void setRead() {
-		if (read == true)
-			read = false;
-		if (read == false)
-			read = true;
+		this.read = !this.read;
 	}
 	
 }
