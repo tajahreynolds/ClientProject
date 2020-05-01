@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class DBCreate {
 
-	public void createBooksTable() {
+	public void createBookTable() {
 		String path = "jdbc:sqlite:Books.db";
 		String query = "CREATE TABLE IF NOT EXISTS Books ("
 				+ "bookId INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -34,7 +34,7 @@ public class DBCreate {
 			Statement stmt = conn.createStatement();
 			stmt.execute(query);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			new WriteExceptionToLog(e.getMessage());
 		}
 	}
 
