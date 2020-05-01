@@ -1,6 +1,8 @@
 package Database;
 
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,11 +16,14 @@ public class WriteExceptionToLog {
     	String time = dtf.format(now);
         PrintWriter pw;
 		try {
-			pw = new PrintWriter("logs/" + time);
-	        pw.append(dtf2.format(now) + errorMessage + "\n\n");
+			FileWriter fileWriter = new FileWriter("logs/" + time, true);
+			pw = new PrintWriter(fileWriter);
+	        pw.println(dtf2.format(now) + "\t" + errorMessage + "\n");
 	        pw.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			new WriteExceptionToLog(e.getMessage());
+		}catch (IOException e) {
+			new WriteExceptionToLog(e.getMessage());
 		}
     }
     
