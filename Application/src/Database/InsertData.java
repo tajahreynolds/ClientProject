@@ -22,10 +22,10 @@ public class InsertData {
 				String query = "";
 
 				// Define the data type and insert into the correct table
-				if(dataType.equals("Books")) {
+				if(dataType.equals("Book")) {
 					Book b = new Book(0, Integer.parseInt(parts[0]), parts[1], parts[2], parts[3], Integer.parseInt(parts[4]));
 					query = b.prepInsertQuery();
-				} else if(dataType.equals("Catalogs")) {
+				} else if(dataType.equals("Catalog")) {
 					Catalog c = new Catalog(0, parts[0]);
 					query = c.prepInsertQuery();
 				}
@@ -33,7 +33,6 @@ public class InsertData {
 				stmt.execute(query);
 			}
 			in.close();
-			// NOT complete add error log
 		} catch (Exception e) {
 			new WriteExceptionToLog(e.getMessage());
 			return false;
@@ -54,11 +53,10 @@ public class InsertData {
 				Catalog c = (Catalog) o;
 				query = c.prepInsertQuery();
 			} else {
-				throw new Exception("wrong datatype");
+				new WriteExceptionToLog("Wrong Datatype");
 			}
 			// Execute the query
 			stmt.execute(query);
-			// NOT complete add error log
 		} catch (Exception e) {
 			new WriteExceptionToLog(e.getMessage());
 			return false;

@@ -6,13 +6,14 @@ public class DBCreate {
 
 	public void createBookTable() {
 		String path = "jdbc:sqlite:Books.db";
-		String query = "CREATE TABLE IF NOT EXISTS Books ("
+		String query = "CREATE TABLE IF NOT EXISTS Book ("
 				+ "bookId INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "catalogId INTEGER FOREIGN KEY REFERENCES Catalog(catalogId),"
+				+ "catalogId INTEGER,"
 				+ "title VARCHAR(100) NOT NULL,"
 				+ "author VARCHAR(100) NOT NULL,"
 				+ "publishDate DATE NOT NULL,"
-				+ "pageCount int NOT NULL"
+				+ "pageCount INTEGER NOT NULL,"
+				+ "FOREIGN KEY (catalogId) REFERENCES Catalog(catalogId)"
 				+ ");";
 		try {
 			Connection conn = DriverManager.getConnection(path);
@@ -25,7 +26,7 @@ public class DBCreate {
 
 	public void createCatalogTable() {
 		String path = "jdbc:sqlite:Books.db";
-		String query = "CREATE TABLE IF NOT EXISTS Catalogs ("
+		String query = "CREATE TABLE IF NOT EXISTS Catalog ("
 				+ "catalogId INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "catalog VARCHAR(100) NOT NULL"
 				+ ");";
