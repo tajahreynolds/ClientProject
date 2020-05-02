@@ -22,12 +22,13 @@ public class Driver {
 		InsertData i = new InsertData();
 		
 //		i.insertData(c1, "Catalog");
-		Login l = new Login(1, "Fred", "wangt24", "123456", "ADMIN");
+//		Login l = new Login(1, "Fred", "wangt24", "123456", "ADMIN");
 		System.out.println(i.insertData(book1, "Book"));
-		System.out.println(i.insertData(book2, "Book"));
+//		System.out.println(i.insertData(book2, "Book"));
 		
 		
 		FetchData f = new FetchData();
-		System.out.println(f.FetchFromBookWithFilter("catalog", "Science"));
+		System.out.println(f.FetchAllWithoutFilter("Book"));
+		System.out.println(f.FetchWithFilter("Book", "catalog", "Science"));
 	}
 }

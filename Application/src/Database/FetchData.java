@@ -115,8 +115,8 @@ public class FetchData {
 		return null;
 	}
 
-	public JSONArray FetchFromBookWithFilter(String filterType, String text) {
-		String query = "SELECT * FROM Book WHERE " + filterType + " = '" + text + "'";
+	public JSONArray FetchWithFilter(String table, String filterType, String text) {
+		String query = "SELECT * FROM " + table + " WHERE " + filterType + " = '" + text + "'";
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
