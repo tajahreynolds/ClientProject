@@ -50,7 +50,7 @@ public class InsertData {
 			} else if(dataType.equals("Login")) {
 				Login l = (Login) o;
 				query = l.prepInsertQuery();
-			} else if(dataType.equals("Catalog")) {
+			} else if(dataType.equals("PersonalBookShelf")) {
 				PersonalBookShelf p = (PersonalBookShelf) o;
 				query = p.prepInsertQuery();
 			} else {
