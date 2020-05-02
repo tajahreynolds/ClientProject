@@ -3,78 +3,30 @@ package Main;
 public class Book {
 	
 	private int bookId;
-	private int catalogId;
+	private String catalog;
 	private String title;
 	private String author;
 	private String publishDate;
 	private int pageCount;
 
-	public Book(int bookId, int catalogId, String title, String author, String publishDate, int pageCount) {
+	public Book(int bookId, String catalogId, String title, String author, String publishDate, int pageCount) {
 		this.bookId = bookId;
-		this.catalogId = catalogId;
+		this.catalog = catalogId;
 		this.title = title;
 		this.author = author;
 		this.publishDate = publishDate;
-		this.setPageCount(pageCount);
+		this.pageCount = pageCount;
 	}
 	
 	public String prepInsertQuery() {
-		return String.format("INSERT INTO Book (catalogId, title, author, publishDate, pageCount) VALUES"
-				+ "('%d', '%s', '%s', '%s', '%d')", catalogId, title, author, publishDate, pageCount);
+		return String.format("INSERT INTO Book (catalog, title, author, publishDate, pageCount) VALUES"
+				+ "('%s', '%s', '%s', '%s', '%d')", catalog, title, author, publishDate, pageCount);
 	}
 	
 	@Override
 	public String toString() {
-		return "Book [bookId=" + bookId + ", catalogId=" + catalogId + ", title=" + title + ", author=" + author
+		return "Book [bookId=" + bookId + ", catalog=" + catalog + ", title=" + title + ", author=" + author
 				+ ", publishDate=" + publishDate + ", pageCount=" + pageCount + "]";
-	}
-
-	int getPageCount() {
-		return pageCount;
-	}
-
-	public void setPageCount(int pageCount) {
-		this.pageCount = pageCount;
-	}
-
-	public int getBookId() {
-		return bookId;
-	}
-
-	public void setBookId(int bookId) {
-		this.bookId = bookId;
-	}
-
-	public int getCatalogId() {
-		return catalogId;
-	}
-
-	public void setCatalogId(int catalogId) {
-		this.catalogId = catalogId;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-	public String getPublishDate() {
-		return publishDate;
-	}
-
-	public void setPublishDate(String publishDate) {
-		this.publishDate = publishDate;
 	}
 
 }
