@@ -20,7 +20,17 @@ public class PersonalBookShelf {
 	public String toString() {
 		return "PersonalBookShelf [userId=" + userId + ", bookId=" + bookId + ", isRead=" + isRead + "]";
 	}
-	
-	
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public int getBookId() {
+		return bookId;
+	}
+
+	public int getIsRead() {
+		return isRead;
+	}
 	
 }

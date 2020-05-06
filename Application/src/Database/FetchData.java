@@ -1,6 +1,8 @@
 package Database;
 
 import Main.Book;
+import Main.Login;
+import Main.PersonalBookShelf;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +15,7 @@ import java.util.List;
 public class FetchData {
 
 	private String path = "jdbc:sqlite:Books.db";
-	Connection conn;
+	public Connection conn;
 
 	public FetchData() {
 		try {
@@ -48,7 +50,7 @@ public class FetchData {
 		}
 		return list;
 	}
-	
+
 	public List<Book> FetchAllWithoutFilter() {
 		String query = "SELECT * FROM Book";
 		try {
@@ -61,7 +63,7 @@ public class FetchData {
 
 		return null;
 	}
-	
+
 	// userId if success, -1 if failed
 	public int verifyPassword(String userName, String password) {
 		String query = "SELECT * FROM Login WHERE userName = '" + userName + "' AND password = '" + password + "'";
@@ -74,7 +76,7 @@ public class FetchData {
 		}
 		return -1;
 	}
-	
+
 	public List<Book> FetchByUserId (int userId) {
 		String query = "SELECT * FROM PersonalBookShelf WHERE userId = " + userId;
 		try {
@@ -84,8 +86,8 @@ public class FetchData {
 			List<Book> allBookList = FetchAllWithoutFilter();
 			List<Book> userBookList = new ArrayList<>();
 			for (Book b : allBookList) {
-				if(bookIdList.contains(b.getBookId()));
-				userBookList.add(b);
+				if(bookIdList.contains(b.getBookId()))
+					userBookList.add(b);
 			}
 			return userBookList;
 		} catch (SQLException e) {
@@ -94,4 +96,41 @@ public class FetchData {
 
 		return null;
 	}
+	
+	public void RemoveFromPersonalBookshelf(int userId, int bookId) {
+		String query = "DELETE FROM PersonalBookShelf WHERE userId = " + userId + " AND bookId = " + bookId;
+		try {
+			Statement stmt = conn.createStatement();
+			stmt.executeQuery(query);
+		} catch (SQLException e) {
+			new WriteExceptionToLog(e.getMessage());
+		}
+	}
+	
+	public boolean insertData(Object o, String dataType) {
+		try {
+			String query = null;
+			Statement stmt = conn.createStatement();
+			// Define the data type and insert into the correct table
+			if(dataType.equals("Book")) {
+				Book b = (Book) o;
+				query = b.prepInsertQuery();
+			} else if(dataType.equals("Login")) {
+				Login l = (Login) o;
+				query = l.prepInsertQuery();
+			} else if(dataType.equals("PersonalBookShelf")) {
+				PersonalBookShelf p = (PersonalBookShelf) o;
+				query = p.prepInsertQuery();
+			} else {
+				new WriteExceptionToLog("Wrong Datatype");
+			}
+			// Execute the query
+			stmt.execute(query);
+		} catch (Exception e) {
+			new WriteExceptionToLog(e.getMessage());
+			return false;
+		}
+		return true;		
+	}
+	
 }
