@@ -10,6 +10,9 @@ import javax.swing.*;
 
 import Database.FetchData;
 import Database.WriteExceptionToLog;
+import Objects.Book;
+import Objects.Login;
+import Objects.PersonalBookShelf;
 
 public class MainApp {
 	

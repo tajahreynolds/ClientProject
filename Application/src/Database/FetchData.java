@@ -1,8 +1,8 @@
 package Database;
 
-import Main.Book;
-import Main.Login;
-import Main.PersonalBookShelf;
+import Objects.Book;
+import Objects.Login;
+import Objects.PersonalBookShelf;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
