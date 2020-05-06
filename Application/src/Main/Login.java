@@ -15,7 +15,7 @@ public class Login {
 	
 	public String prepInsertQuery() {
 		return String.format("INSERT INTO Login (userName, email, password, userType) VALUES"
-				+ "('%s', '%s', '%s', '%s')", userId, userName, email, password, userType);
+				+ "('%s', '%s', '%s', '%s')", userName, email, password, userType);
 	}
 
 	@Override

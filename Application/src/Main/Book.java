@@ -33,7 +33,24 @@ public class Book {
 		return bookId;
 	}
 
+	public String getCatalog() {
+		return catalog;
+	}
+
 	public String getTitle() {
 		return title;
 	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public String getPublishDate() {
+		return publishDate;
+	}
+
+	public int getPageCount() {
+		return pageCount;
+	}
+
 }

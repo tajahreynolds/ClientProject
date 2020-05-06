@@ -19,16 +19,16 @@ public class Driver {
 		b.createBookTable();
 		b.createLoginTable();
 		b.createPersonalBookshelfTable();
-		
+		PersonalBookShelf p = new PersonalBookShelf(3, 1, 0);
 		InsertData i = new InsertData();
+		System.out.println(i.insertData(p, "PersonalBookShelf"));
 		
 //		i.insertData(c1, "Catalog");
-		System.out.println(i.insertData(book1, "Book"));
+//		System.out.println(i.insertData(book1, "Book"));
 //		System.out.println(i.insertData(book2, "Book"));
 //		System.out.println(i.insertData(book3, "Book"));
 		
 		
 		FetchData f = new FetchData();
-		System.out.println(f.FetchAllWithoutFilter());
 	}
 }

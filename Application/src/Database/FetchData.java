@@ -1,16 +1,10 @@
 package Database;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import Main.Book;
-
-import org.json.JSONException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -67,10 +61,10 @@ public class FetchData {
 
 		return null;
 	}
-
+	
 	// userId if success, -1 if failed
 	public int verifyPassword(String userName, String password) {
-		String query = "SELECT * FROM Login WHERE userName = '" + userName + "' AND PASSWORD = '" + password + "'";
+		String query = "SELECT * FROM Login WHERE userName = '" + userName + "' AND password = '" + password + "'";
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
@@ -82,7 +76,7 @@ public class FetchData {
 	}
 	
 	public List<Book> FetchByUserId (int userId) {
-		String query = "SELECT * FROM LPersonalBookShelf WHERE userId = " + userId;
+		String query = "SELECT * FROM PersonalBookShelf WHERE userId = " + userId;
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
