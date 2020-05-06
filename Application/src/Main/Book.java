@@ -9,9 +9,9 @@ public class Book {
 	private String publishDate;
 	private int pageCount;
 
-	public Book(int bookId, String catalogId, String title, String author, String publishDate, int pageCount) {
+	public Book(int bookId, String catalog, String title, String author, String publishDate, int pageCount) {
 		this.bookId = bookId;
-		this.catalog = catalogId;
+		this.catalog = catalog;
 		this.title = title;
 		this.author = author;
 		this.publishDate = publishDate;
@@ -29,4 +29,11 @@ public class Book {
 				+ ", publishDate=" + publishDate + ", pageCount=" + pageCount + "]";
 	}
 
+	public int getBookId() {
+		return bookId;
+	}
+
+	public String getTitle() {
+		return title;
+	}
 }

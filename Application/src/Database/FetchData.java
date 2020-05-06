@@ -2,6 +2,9 @@ package Database;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import Main.Book;
+
 import org.json.JSONException;
 
 import java.sql.Connection;
@@ -10,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FetchData {
 
@@ -24,74 +29,34 @@ public class FetchData {
 		}
 	}
 
-	// reference from https://stackoverflow.com/questions/6514876/most-efficient-conversion-of-resultset-to-json
-	public JSONArray convert(ResultSet rs) {
-		JSONArray json = new JSONArray();
+	public List<Book> convert(ResultSet rs) {
+		List<Book> list = new ArrayList<Book>();
 		try {
-			ResultSetMetaData rsmd = rs.getMetaData();
-
 			while(rs.next()) {
-				int numColumns = rsmd.getColumnCount();
-				JSONObject obj = new JSONObject();
-
-				for (int i=1; i<numColumns+1; i++) {
-					String column_name = rsmd.getColumnName(i);
-
-					if(rsmd.getColumnType(i)==java.sql.Types.ARRAY){
-						obj.put(column_name, rs.getArray(column_name));
-					}
-					else if(rsmd.getColumnType(i)==java.sql.Types.BIGINT){
-						obj.put(column_name, rs.getInt(column_name));
-					}
-					else if(rsmd.getColumnType(i)==java.sql.Types.BOOLEAN){
-						obj.put(column_name, rs.getBoolean(column_name));
-					}
-					else if(rsmd.getColumnType(i)==java.sql.Types.BLOB){
-						obj.put(column_name, rs.getBlob(column_name));
-					}
-					else if(rsmd.getColumnType(i)==java.sql.Types.DOUBLE){
-						obj.put(column_name, rs.getDouble(column_name)); 
-					}
-					else if(rsmd.getColumnType(i)==java.sql.Types.FLOAT){
-						obj.put(column_name, rs.getFloat(column_name));
-					}
-					else if(rsmd.getColumnType(i)==java.sql.Types.INTEGER){
-						obj.put(column_name, rs.getInt(column_name));
-					}
-					else if(rsmd.getColumnType(i)==java.sql.Types.NVARCHAR){
-						obj.put(column_name, rs.getNString(column_name));
-					}
-					else if(rsmd.getColumnType(i)==java.sql.Types.VARCHAR){
-						obj.put(column_name, rs.getString(column_name));
-					}
-					else if(rsmd.getColumnType(i)==java.sql.Types.TINYINT){
-						obj.put(column_name, rs.getInt(column_name));
-					}
-					else if(rsmd.getColumnType(i)==java.sql.Types.SMALLINT){
-						obj.put(column_name, rs.getInt(column_name));
-					}
-					else if(rsmd.getColumnType(i)==java.sql.Types.DATE){
-						obj.put(column_name, rs.getDate(column_name));
-					}
-					else if(rsmd.getColumnType(i)==java.sql.Types.TIMESTAMP){
-						obj.put(column_name, rs.getTimestamp(column_name));   
-					}
-					else{
-						obj.put(column_name, rs.getObject(column_name));
-					}
-				}
-
-				json.put(obj);
+				Book b = new Book(rs.getInt("bookId"), rs.getString("catalog"), 
+						rs.getString("title"), rs.getString("author"), rs.getString("publishDate"), rs.getInt("pageCount"));
+				list.add(b);
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			new WriteExceptionToLog(e.getMessage());
 		}
-
-		return json;
+		return list;
 	}
 
-	public JSONArray FetchAllWithoutFilter(String table) {
-		String query = "SELECT * FROM " + table;
+	public List<Integer> getBookIdList(ResultSet rs) {
+		List<Integer> list = new ArrayList<Integer>();
+		try {
+			while(rs.next()) {
+				list.add(rs.getInt("bookId"));
+			}
+		} catch (SQLException e) {
+			new WriteExceptionToLog(e.getMessage());
+		}
+		return list;
+	}
+	
+	public List<Book> FetchAllWithoutFilter() {
+		String query = "SELECT * FROM Book";
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
@@ -103,24 +68,32 @@ public class FetchData {
 		return null;
 	}
 
-	public JSONArray verifyPassword(String userName, String password) {
+	// userId if success, -1 if failed
+	public int verifyPassword(String userName, String password) {
 		String query = "SELECT * FROM Login WHERE userName = '" + userName + "' AND PASSWORD = '" + password + "'";
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-			return convert(rs);
+			return rs.getInt("userId");
 		} catch (SQLException e) {
 			new WriteExceptionToLog(e.getMessage());
 		}
-		return null;
+		return -1;
 	}
-
-	public JSONArray FetchWithFilter(String table, String filterType, String text) {
-		String query = "SELECT * FROM " + table + " WHERE " + filterType + " = '" + text + "'";
+	
+	public List<Book> FetchByUserId (int userId) {
+		String query = "SELECT * FROM LPersonalBookShelf WHERE userId = " + userId;
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-			return convert(rs);
+			List<Integer> bookIdList = getBookIdList(rs);
+			List<Book> allBookList = FetchAllWithoutFilter();
+			List<Book> userBookList = new ArrayList<>();
+			for (Book b : allBookList) {
+				if(bookIdList.contains(b.getBookId()));
+				userBookList.add(b);
+			}
+			return userBookList;
 		} catch (SQLException e) {
 			new WriteExceptionToLog(e.getMessage());
 		}
