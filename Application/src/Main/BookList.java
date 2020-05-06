@@ -51,7 +51,7 @@ public class BookList<T> implements ListInterface<T> {
 
 	public T remove(int givenPosition) {
 		checkInitialization();
-		if ((givenPosition >= 1) && (givenPosition < numberOfEntries)) {
+		if ((givenPosition >= 1) && (givenPosition <= numberOfEntries)) {
 			assert !isEmpty();
 			T result = list[givenPosition]; // Get entry to be removed
 			// Move subsequent entries toward entry to be removed,
