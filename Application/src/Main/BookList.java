@@ -51,7 +51,7 @@ public class BookList<T> implements ListInterface<T> {
 
 	public T remove(int givenPosition) {
 		checkInitialization();
-		if ((givenPosition >= 1) && (givenPosition < -numberOfEntries)) {
+		if ((givenPosition >= 1) && (givenPosition <= numberOfEntries)) {
 			assert !isEmpty();
 			T result = list[givenPosition]; // Get entry to be removed
 			// Move subsequent entries toward entry to be removed,
@@ -138,7 +138,7 @@ public class BookList<T> implements ListInterface<T> {
 
 	// Makes room for a new entry at newPosition.
 	// Precondition: 1 <= newPosition <= numberOfEntries + 1;
-	// numberOfEntries is list’s length before addition;
+	// numberOfEntries is listâ€™s length before addition;
 	// checkInitialization has been called.
 	private void makeRoom(int newPosition) {
 		assert (newPosition >= 1) && (newPosition <= numberOfEntries + 1);
@@ -153,7 +153,7 @@ public class BookList<T> implements ListInterface<T> {
 	// Shifts entries that are beyond the entry to be removed to the
 	// next lower position.
 	// Precondition: 1 <= givenPosition < numberOfEntries;
-	// numberOfEntries is list’s length before removal;
+	// numberOfEntries is listâ€™s length before removal;
 	// checkInitialization has been called.
 	private void removeGap(int givenPosition) {
 		assert (givenPosition >= 1) && (givenPosition < numberOfEntries);
