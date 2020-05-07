@@ -44,6 +44,7 @@ public class MainApp {
 		JLabel header = addHeader();
 		JTextField searchField = addSearchField();
 		JComboBox<String> sortBox = addSortBox();
+		JComboBox<String> filterBox = addFilterBox();
 		
 		//Opens new login screen with username and password field, clicking enter closes the window
 		loginButton = addLoginButton();
@@ -78,7 +79,7 @@ public class MainApp {
 		}
 		for (int i = 0; i < originList.size() && i < 5; i++) {
 			JButton b = new JButton(originList.get(i).getTitle());
-			b.setBounds(20, 100 + i*80, 500, 60);
+			b.setBounds(10, 100 + i*80, 510, 60);
 			b.addActionListener(popNewBookWindow(originList.get(i)));
 			mainWindow.add(b);
 		}
@@ -87,6 +88,7 @@ public class MainApp {
 		mainWindow.add(header);
 		mainWindow.add(searchField);
 		mainWindow.add(sortBox);
+		mainWindow.add(filterBox);
 		mainWindow.add(loginButton);
 		mainWindow.add(logoutButton);
 		mainWindow.add(personalBookListButton);
@@ -422,7 +424,7 @@ public class MainApp {
 	}	
 	private JTextField addSearchField() {
 		JTextField tf = new JTextField("Search...");
-		tf.setBounds(10,50,150,40);
+		tf.setBounds(10,50,125,40);
 		return tf;
 	}
 	private JTextField addUserField() {
@@ -439,7 +441,7 @@ public class MainApp {
 	private JComboBox<String> addSortBox() {
 		String sortOptions[]  = {"Sort By", "Title A-Z", "Title Z-A"};
 		JComboBox<String> cb = new JComboBox<String>(sortOptions);
-		cb.setBounds(170, 50, 70, 39);
+		cb.setBounds(137, 50, 70, 40);
 		cb.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -460,7 +462,17 @@ public class MainApp {
 	}
 	
 	private JComboBox<String> addFilterBox() {
-		return null;
+		String filterOptions[]  = {"Filter Genre", "Fiction", "NonFiction", "Autobiography", "Biography", "Crime", "Drama",
+									"Fantasy", "History", "Horror", "Mystery", "Romance", "SciFi", "Thriller"};
+		JComboBox<String> cb = new JComboBox<String>(filterOptions);
+		cb.setBounds(210, 50, 103, 40);
+		cb.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		return cb;
 	}
 	
 	private JButton addLoginButton() {
