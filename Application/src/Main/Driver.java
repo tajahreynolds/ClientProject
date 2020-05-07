@@ -2,7 +2,9 @@ package Main;
 
 import Database.DBCreate;
 import Database.FetchData;
-import Database.InsertData;
+import Objects.Book;
+import Objects.Login;
+import Objects.PersonalBookShelf;
 
 public class Driver {
 
@@ -20,15 +22,16 @@ public class Driver {
 		b.createLoginTable();
 		b.createPersonalBookshelfTable();
 		PersonalBookShelf p = new PersonalBookShelf(3, 1, 0);
-		InsertData i = new InsertData();
-		System.out.println(i.insertData(p, "PersonalBookShelf"));
+//		System.out.println(i.insertData(p, "PersonalBookShelf"));
 		
 //		i.insertData(c1, "Catalog");
 //		System.out.println(i.insertData(book1, "Book"));
 //		System.out.println(i.insertData(book2, "Book"));
 //		System.out.println(i.insertData(book3, "Book"));
 		
-		
+		Login l = new Login(-1, "admin", "admin@miamioh.edu", "admin", "admin");
 		FetchData f = new FetchData();
+//		f.insertData(l, "Login");
+		System.out.println(f.FetchByUserId(2));
 	}
 }

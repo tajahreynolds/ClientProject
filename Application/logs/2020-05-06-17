@@ -1,0 +1,62 @@
+2020-05-06-17:00:41	ResultSet closed
+
+2020-05-06-17:16:38	[SQLITE_BUSY]  The database file is locked (database is locked)
+
+2020-05-06-17:17:57	[SQLITE_BUSY]  The database file is locked (database is locked)
+
+2020-05-06-17:18:00	[SQLITE_BUSY]  The database file is locked (database is locked)
+
+2020-05-06-17:18:12	[SQLITE_BUSY]  The database file is locked (database is locked)
+
+2020-05-06-17:18:55	[SQLITE_BUSY]  The database file is locked (database is locked)
+
+2020-05-06-17:19:17	[SQLITE_BUSY]  The database file is locked (database is locked)
+
+2020-05-06-17:20:53	[SQLITE_BUSY]  The database file is locked (database is locked)
+
+2020-05-06-17:20:56	[SQLITE_BUSY]  The database file is locked (database is locked)
+
+2020-05-06-17:28:40	query does not return ResultSet
+
+2020-05-06-17:33:58	[SQLITE_BUSY]  The database file is locked (database is locked)
+
+2020-05-06-17:39:15	[SQLITE_BUSY]  The database file is locked (database is locked)
+
+2020-05-06-17:39:21	[SQLITE_BUSY]  The database file is locked (database is locked)
+
+2020-05-06-17:39:36	[SQLITE_BUSY]  The database file is locked (database is locked)
+
+2020-05-06-17:51:19	database connection closed
+
+2020-05-06-17:51:20	database connection closed
+
+2020-05-06-17:51:25	database connection closed
+
+2020-05-06-17:52:03	database connection closed
+
+2020-05-06-17:52:17	database connection closed
+
+2020-05-06-17:52:30	database connection closed
+
+2020-05-06-17:52:31	database connection closed
+
+2020-05-06-17:52:32	database connection closed
+
+2020-05-06-17:53:16	database connection closed
+
+2020-05-06-17:53:19	database connection closed
+
+2020-05-06-17:53:20	database connection closed
+
+2020-05-06-17:53:53	[SQLITE_ERROR] SQL error or missing database (unrecognized token: "3AND")
+
+2020-05-06-17:54:21	query does not return ResultSet
+
+2020-05-06-17:55:25	query does not return ResultSet
+
+2020-05-06-17:55:40	query does not return ResultSet
+
+2020-05-06-17:55:45	query does not return ResultSet
+
+2020-05-06-17:56:24	query does not return ResultSet
+

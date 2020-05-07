@@ -98,10 +98,22 @@ public class FetchData {
 			ResultSet rs = stmt.executeQuery(query);
 			ret = rs.getInt("userId");
 		} catch (SQLException e) {
-			// new WriteExceptionToLog(e.getMessage());
+			 new WriteExceptionToLog(e.getMessage());
 			return -1;
 		}
 		return ret;
+	}
+	
+	public String getUserType(String userName, String password) {
+		String query = "SELECT * FROM Login WHERE userName = '" + userName + "' AND password = '" + password + "'";
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			return rs.getString("userType");
+		} catch (SQLException e) {
+			 new WriteExceptionToLog(e.getMessage());
+			return null;
+		}
 	}
 
 	public List<Book> FetchByUserId (int userId) {
@@ -126,6 +138,16 @@ public class FetchData {
 	
 	public void RemoveFromPersonalBookshelf(int userId, int bookId) {
 		String query = "DELETE FROM PersonalBookShelf WHERE userId = " + userId + " AND bookId = " + bookId;
+		try {
+			Statement stmt = conn.createStatement();
+			stmt.executeQuery(query);
+		} catch (SQLException e) {
+			new WriteExceptionToLog(e.getMessage());
+		}
+	}
+	
+	public void RemoveBook(int bookId) {
+		String query = "DELETE FROM Book WHERE bookId = " + bookId;
 		try {
 			Statement stmt = conn.createStatement();
 			stmt.executeQuery(query);

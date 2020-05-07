@@ -3,15 +3,15 @@ package Main;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.Collection;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.List;
 
 import javax.swing.*;
 
 import Database.FetchData;
-import Database.WriteExceptionToLog;
 import Objects.Book;
 import Objects.Login;
 import Objects.PersonalBookShelf;
@@ -22,14 +22,20 @@ public class MainApp {
 		new MainApp();
 	}
 	
-	private boolean isLogin;
-	private int userId;
-	JButton loginButton, logoutButton, personalBookListButton;
+	boolean isLogin;
+	int userId;
+	String userType;
 	FetchData fetchData;
+	JButton loginButton, logoutButton, personalBookListButton, newBookRequestButton;
 	JLabel loginFail;
+	JFrame mainWindow;
 	
 	public MainApp() {
-		JFrame mainWindow = new JFrame("Book Broker");
+		loadMainApp();
+	}
+	
+	private void loadMainApp() {
+		mainWindow = new JFrame("Book Broker");
 		fetchData = new FetchData();
 		// Create components
 		JLabel header = addHeader();
@@ -47,6 +53,7 @@ public class MainApp {
 				logoutButton.setVisible(false);
 				loginButton.setVisible(true);
 				personalBookListButton.setVisible(false);
+				newBookRequestButton.setVisible(false);
 			}
 		});
 		loginButton.addActionListener(popNewLoginWindow());
@@ -54,6 +61,9 @@ public class MainApp {
 		loginFail = addLoginFailed();
 		personalBookListButton = addPersonalListButton();
 		personalBookListButton.addActionListener(popNewPersonalBookWindow());
+		
+		newBookRequestButton = addRequestNewBookButton();
+		newBookRequestButton.addActionListener(popNewRequestWindow());
 		
 		//Adding the books to the main page, each is responsive and opens a new window with details about the book
 		List<Book> originList = fetchData.FetchAllWithoutFilter();
@@ -72,10 +82,20 @@ public class MainApp {
 		mainWindow.add(loginButton);
 		mainWindow.add(logoutButton);
 		mainWindow.add(personalBookListButton);
+		mainWindow.add(newBookRequestButton);
 		mainWindow.add(loginFail);
-		personalBookListButton.setVisible(false);
 		loginFail.setVisible(false);
 		
+		personalBookListButton.setVisible(false);
+		newBookRequestButton.setVisible(false);
+		if(userType != null) {
+			isLogin = true;
+			logoutButton.setVisible(true);
+			loginButton.setVisible(false);
+			personalBookListButton.setVisible(true);
+			newBookRequestButton.setVisible(true);
+			loginFail.setVisible(false);
+		}
 		mainWindow.setLayout(null);
 		mainWindow.setSize(550, 600);
 		mainWindow.setVisible(true);
@@ -121,6 +141,23 @@ public class MainApp {
 					}
 				});
 				
+				JButton removeBookFromList = new JButton("remove");
+				removeBookFromList.setBounds(310, 300, 150, 75);
+				removeBookFromList.setVisible(false);
+				if(userType != null && userType.equals("admin")) {
+					removeBookFromList.setVisible(true);
+				}
+				removeBookFromList.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						fetchData.RemoveBook(b.getBookId());
+						mainWindow.dispose();
+						bookDetail.dispose();
+						loadMainApp();
+					}
+				});
+				
+				
 				JButton close = new JButton("Close");
 				close.setBounds(420, 10, 100, 40);
 				close.addActionListener(new AbstractAction("close") {
@@ -139,6 +176,7 @@ public class MainApp {
 				bookDetail.add(link);
 				bookDetail.add(author);
 				bookDetail.add(close);
+				bookDetail.add(removeBookFromList);
 				bookDetail.setLayout(null);
 				bookDetail.setSize(550, 600);
 				bookDetail.setVisible(true);
@@ -160,17 +198,20 @@ public class MainApp {
 				loginEnter.addActionListener(new AbstractAction("close") {
 					public void actionPerformed(ActionEvent e) {
 						userId = fetchData.verifyPassword(user.getText(), pass.getText());
+						userType = fetchData.getUserType(user.getText(), pass.getText());
 						loginWindow.dispose();
 						if(userId != -1) {
 							isLogin = true;
 							logoutButton.setVisible(true);
 							loginButton.setVisible(false);
 							personalBookListButton.setVisible(true);
+							newBookRequestButton.setVisible(true);
 							loginFail.setVisible(false);
 						} else {
 							logoutButton.setVisible(false);
 							loginButton.setVisible(true);
 							personalBookListButton.setVisible(false);
+							newBookRequestButton.setVisible(false);
 							loginFail.setVisible(true);
 						}
 							
@@ -185,12 +226,12 @@ public class MainApp {
 							isLogin = true;
 							logoutButton.setVisible(true);
 							loginButton.setVisible(false);
+							newBookRequestButton.setVisible(true);
 							personalBookListButton.setVisible(true);
 							loginWindow.dispose();
 						}
 					}
 				});
-				
 				
 				loginWindow.add(loginHeader);
 				loginWindow.add(user);
@@ -274,6 +315,75 @@ public class MainApp {
 		};
 	}
 	
+	private Action popNewRequestWindow() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame form = new JFrame("New Book Request");
+				JButton close = new JButton("Close");
+				JLabel formHeader = new JLabel("New Book Request");
+				formHeader.setBounds(20, 20, 300, 30);
+				formHeader.setFont(new Font("Helvetica", Font.BOLD, 24));
+				
+				close.setBounds(420, 10, 100, 40);
+				close.addActionListener(new AbstractAction() {
+					public void actionPerformed(ActionEvent e) {
+						form.dispose();
+					}
+				});
+				
+				JTextField ja1 = new JTextField("Title:");
+				ja1.setBounds(20, 80, 300, 40);
+				JTextField ja2 = new JTextField("Author:");
+				ja2.setBounds(20, 130, 300, 40);
+				JTextField ja3 = new JTextField("Publish Date:");
+				ja3.setBounds(20, 180, 300, 40);
+				JTextField ja4 = new JTextField("Catalog:");
+				ja4.setBounds(20, 230, 300, 40);
+				
+				JButton b = new JButton("Push");
+				b.setBounds(20, 350, 150, 40);
+				b.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Book b = new Book(-1, ja4.getText(), ja1.getText(), ja2.getText(), ja3.getText(), -1);
+						if(userType.equals("user")) {
+							addToWaitlist(b);
+						} else if(userType.equals("admin")) {
+							fetchData.insertData(b, "Book");
+							mainWindow.dispose();
+							loadMainApp();
+						}
+						form.dispose();
+					}
+				});
+				
+				form.add(close);
+				form.add(formHeader);
+				form.add(ja1);
+				form.add(ja2);
+				form.add(ja3);
+				form.add(ja4);
+				form.add(b);
+				form.setLayout(null);
+				form.setSize(550, 600);
+				form.setVisible(true);
+				form.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+			}
+		};
+	}
+	
+	private void addToWaitlist(Book b) {
+		try {
+			PrintWriter pw = new PrintWriter(new File("waitlist.txt"));
+			pw.append(b.prepInsertQuery() + "\n");
+			System.out.println("111");
+			pw.flush();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private JLabel addHeader() {
 		JLabel l = new JLabel("Book Broker");
 		l.setBounds(10,10,150,20);
@@ -338,6 +448,11 @@ public class MainApp {
 	private JButton addPersonalListButton() {
 		JButton b = new JButton("Personal");
 		b.setBounds(300, 10, 100, 40);
+		return b;
+	}
+	private JButton addRequestNewBookButton() {
+		JButton b = new JButton("Pull new request");
+		b.setBounds(300, 60, 220, 30);
 		return b;
 	}
 	private JButton addLoginEnterButton() {

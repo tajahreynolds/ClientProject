@@ -1,0 +1,1 @@
+INSERT INTO Book (catalog, title, author, publishDate, pageCount) VALUES('Catalog:', 'Title:', 'Author:', 'Publish Date:', '1')
