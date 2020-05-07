@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,7 +38,8 @@ public class MainApp {
 	
 	private void loadMainApp() {
 		mainWindow = new JFrame("Book Broker");
-		fetchData = new FetchData();
+		if(fetchData == null)
+			fetchData = new FetchData();
 		// Create components
 		JLabel header = addHeader();
 		JTextField searchField = addSearchField();
@@ -113,6 +113,10 @@ public class MainApp {
 		mainWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 	
+	private void reloadList() {
+		originList = fetchData.FetchAllWithoutFilter();
+	}
+	
 	private Action popNewBookWindow(Book b) {
 		return new AbstractAction("open") {
 			public void actionPerformed(ActionEvent e) {
@@ -166,12 +170,8 @@ public class MainApp {
 					public void actionPerformed(ActionEvent e) {
 						fetchData.RemoveBook(b.getBookId());
 						mainWindow.dispose();
-						try {
-							fetchData.conn.close();
-						} catch (SQLException e1) {
-							e1.printStackTrace();
-						}
 						bookDetail.dispose();
+						reloadList();
 						loadMainApp();
 					}
 				});
@@ -372,11 +372,7 @@ public class MainApp {
 						} else if(userType.equals("admin")) {
 							fetchData.insertData(b, "Book");
 							mainWindow.dispose();
-							try {
-								fetchData.conn.close();
-							} catch (SQLException e1) {
-								e1.printStackTrace();
-							}
+							reloadList();
 							loadMainApp();
 						}
 						form.dispose();
