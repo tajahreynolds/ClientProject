@@ -73,7 +73,7 @@ public class FetchData {
 			ResultSet rs = stmt.executeQuery(query);
 			ret = rs.getInt("userId");
 		} catch (SQLException e) {
-			new WriteExceptionToLog(e.getMessage());
+			// new WriteExceptionToLog(e.getMessage());
 			return -1;
 		}
 		return ret;
