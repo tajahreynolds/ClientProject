@@ -17,11 +17,11 @@ import Objects.Login;
 import Objects.PersonalBookShelf;
 
 public class MainApp {
-	
+
 	public static void main(String[] args) {
 		new MainApp();
 	}
-	
+
 	boolean isLogin;
 	int userId;
 	String userType;
@@ -31,11 +31,11 @@ public class MainApp {
 	JFrame mainWindow;
 	List<Book> originList;
 	boolean loadedList = false, filtered = false;
-	
+
 	public MainApp() {
 		loadMainApp();
 	}
-	
+
 	private void loadMainApp() {
 		mainWindow = new JFrame("Book Broker");
 		if(fetchData == null)
@@ -45,7 +45,7 @@ public class MainApp {
 		JTextField searchField = addSearchField();
 		JComboBox<String> sortBox = addSortBox();
 		JComboBox<String> filterBox = addFilterBox();
-		
+
 		//Opens new login screen with username and password field, clicking enter closes the window
 		loginButton = addLoginButton();
 		logoutButton = addLogoutButton();
@@ -61,14 +61,14 @@ public class MainApp {
 			}
 		});
 		loginButton.addActionListener(popNewLoginWindow());
-		
+
 		loginFail = addLoginFailed();
 		personalBookListButton = addPersonalListButton();
 		personalBookListButton.addActionListener(popNewPersonalBookWindow());
-		
+
 		newBookRequestButton = addRequestNewBookButton();
 		newBookRequestButton.addActionListener(popNewRequestWindow());
-		
+
 		//Adding the books to the main page, each is responsive and opens a new window with details about the book
 		if (!loadedList) {
 			originList = fetchData.FetchAllWithoutFilter();
@@ -77,13 +77,14 @@ public class MainApp {
 		if (filtered) {
 			//TODO
 		}
-		for (int i = 0; i < originList.size() && i < 5; i++) {
-			JButton b = new JButton(originList.get(i).getTitle());
-			b.setBounds(10, 100 + i*80, 510, 60);
-			b.addActionListener(popNewBookWindow(originList.get(i)));
-			mainWindow.add(b);
-		}
-		
+		if(originList != null)
+			for (int i = 0; i < originList.size() && i < 5; i++) {
+				JButton b = new JButton(originList.get(i).getTitle());
+				b.setBounds(10, 100 + i*80, 510, 60);
+				b.addActionListener(popNewBookWindow(originList.get(i)));
+				mainWindow.add(b);
+			}
+
 		// Add components to frame
 		mainWindow.add(header);
 		mainWindow.add(searchField);
@@ -95,7 +96,7 @@ public class MainApp {
 		mainWindow.add(newBookRequestButton);
 		mainWindow.add(loginFail);
 		loginFail.setVisible(false);
-		
+
 		personalBookListButton.setVisible(false);
 		newBookRequestButton.setVisible(false);
 		if(userType != null) {
@@ -112,42 +113,42 @@ public class MainApp {
 		mainWindow.setResizable(false);
 		mainWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
-	
+
 	private void reloadList() {
 		originList = fetchData.FetchAllWithoutFilter();
 	}
-	
+
 	private Action popNewBookWindow(Book b) {
 		return new AbstractAction("open") {
 			public void actionPerformed(ActionEvent e) {
 				JFrame bookDetail = new JFrame("Book Details");
-				
+
 				JLabel bookTitle = new JLabel("Title: " + b.getTitle());
 				bookTitle.setBounds(100,50,400,40);
 				bookTitle.setFont(new Font("Helvetica", Font.BOLD, 24));
-				
+
 				JLabel author = new JLabel("Author: " + b.getAuthor());
 				author.setBounds(100,100,400,40);
 				author.setFont(new Font("Helvetica", Font.BOLD, 24));
-				
+
 				JLabel date = new JLabel("Publish Date: " + b.getPublishDate());
 				date.setBounds(100,150,400,40);
 				date.setFont(new Font("Helvetica", Font.BOLD, 24));
-				
+
 				JLabel genre = new JLabel("Genre: " + b.getCatalog());
 				genre.setBounds(100,200,400,40);
 				genre.setFont(new Font("Helvetica", Font.BOLD, 24));
-				
+
 				String websiteLink = "https://en.wikipedia.org/wiki/" + b.getAuthor().replace(' ', '_');
 				JLabel link = new JLabel("Link: " + websiteLink);
 				link.setBounds(100,250,400,40);
 				link.setFont(new Font("Helvetica", Font.BOLD, 15));
-				
+
 				JLabel addedMessage = new JLabel("Added to your list.");
 				addedMessage.setBounds(100, 380, 200, 75);
 				addedMessage.setFont(new Font("Helvetica", Font.PLAIN, 16));
 				addedMessage.setVisible(false);
-				
+
 				JButton addToPersonalList = new JButton("Add to your personal list");
 				addToPersonalList.setBounds(100, 300, 200, 75);
 				addToPersonalList.addActionListener(new ActionListener() {
@@ -158,7 +159,7 @@ public class MainApp {
 						}
 					}
 				});
-				
+
 				JButton removeBookFromList = new JButton("remove");
 				removeBookFromList.setBounds(310, 300, 150, 75);
 				removeBookFromList.setVisible(false);
@@ -175,8 +176,8 @@ public class MainApp {
 						loadMainApp();
 					}
 				});
-				
-				
+
+
 				JButton close = new JButton("Close");
 				close.setBounds(420, 10, 100, 40);
 				close.addActionListener(new AbstractAction("close") {
@@ -187,7 +188,7 @@ public class MainApp {
 				if(!isLogin) {
 					addToPersonalList.setVisible(false);
 				}
-				
+
 				bookDetail.add(addedMessage);
 				bookDetail.add(addToPersonalList);
 				bookDetail.add(bookTitle);
@@ -204,7 +205,7 @@ public class MainApp {
 			}
 		};
 	}
-	
+
 	private Action popNewLoginWindow() {
 		return new AbstractAction("open") {
 			public void actionPerformed(ActionEvent e) {
@@ -212,7 +213,7 @@ public class MainApp {
 				JLabel loginHeader = addLoginHeader();
 				JTextField user = addUserField();
 				JTextField pass = addPassField();
-				
+
 				JButton loginEnter = addLoginEnterButton();
 				JButton loginRegister = addLoginRegisterButton();
 				loginEnter.addActionListener(new AbstractAction("close") {
@@ -234,7 +235,7 @@ public class MainApp {
 							newBookRequestButton.setVisible(false);
 							loginFail.setVisible(true);
 						}
-							
+
 					}
 				});
 				loginRegister.addActionListener(new ActionListener() {
@@ -252,13 +253,13 @@ public class MainApp {
 						}
 					}
 				});
-				
+
 				loginWindow.add(loginHeader);
 				loginWindow.add(user);
 				loginWindow.add(pass);
 				loginWindow.add(loginEnter);
 				loginWindow.add(loginRegister);
-				
+
 				loginWindow.setLayout(null);
 				loginWindow.setSize(300, 300);
 				loginWindow.setVisible(true);
@@ -266,7 +267,7 @@ public class MainApp {
 			}
 		};
 	}
-	
+
 	private Action popNewPersonalBookWindow() {
 		return new AbstractAction("open") {
 			public void actionPerformed(ActionEvent e) {
@@ -275,7 +276,7 @@ public class MainApp {
 				JLabel personalListHeader = new JLabel("Your Book List");
 				personalListHeader.setBounds(20, 20, 200, 20);
 				personalListHeader.setFont(new Font("Helvetica", Font.BOLD, 24));
-				
+
 				close.setBounds(420, 10, 100, 40);
 				close.addActionListener(new AbstractAction() {
 					public void actionPerformed(ActionEvent e) {
@@ -316,15 +317,15 @@ public class MainApp {
 								read.setVisible(false);
 							}
 						});
-						
-						
+
+
 						personalBookList.add(b);
 						personalBookList.add(delete);
 						personalBookList.add(read);
 						personalBookList.add(readed);
 					}
 				}
-					
+
 				personalBookList.add(personalListHeader);
 				personalBookList.add(close);
 				personalBookList.setLayout(null);
@@ -334,7 +335,7 @@ public class MainApp {
 			}
 		};
 	}
-	
+
 	private Action popNewRequestWindow() {
 		return new AbstractAction() {
 			@Override
@@ -344,14 +345,14 @@ public class MainApp {
 				JLabel formHeader = new JLabel("New Book Request");
 				formHeader.setBounds(20, 20, 300, 30);
 				formHeader.setFont(new Font("Helvetica", Font.BOLD, 24));
-				
+
 				close.setBounds(420, 10, 100, 40);
 				close.addActionListener(new AbstractAction() {
 					public void actionPerformed(ActionEvent e) {
 						form.dispose();
 					}
 				});
-				
+
 				JTextField ja1 = new JTextField("Title:");
 				ja1.setBounds(20, 80, 300, 40);
 				JTextField ja2 = new JTextField("Author:");
@@ -360,7 +361,7 @@ public class MainApp {
 				ja3.setBounds(20, 180, 300, 40);
 				JTextField ja4 = new JTextField("Genre:");
 				ja4.setBounds(20, 230, 300, 40);
-				
+
 				JButton b = new JButton("Push");
 				b.setBounds(20, 350, 150, 40);
 				b.addActionListener(new ActionListener() {
@@ -378,7 +379,7 @@ public class MainApp {
 						form.dispose();
 					}
 				});
-				
+
 				form.add(close);
 				form.add(formHeader);
 				form.add(ja1);
@@ -393,7 +394,7 @@ public class MainApp {
 			}
 		};
 	}
-	
+
 	private void addToWaitlist(Book b) {
 		try {
 			PrintWriter pw = new PrintWriter(new File("waitlist.txt"));
@@ -404,14 +405,14 @@ public class MainApp {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private JLabel addHeader() {
 		JLabel l = new JLabel("Book Broker");
 		l.setBounds(10,10,150,20);
 		l.setFont(new Font("Helvetica", Font.BOLD, 24));
 		return l;
 	}
-	
+
 	private JLabel addLoginHeader() {
 		JLabel l = new JLabel("User Login");
 		l.setBounds(20,20,250,40);
@@ -425,9 +426,9 @@ public class MainApp {
 				reloadList();
 				for (int i = 0; i < originList.size(); i++) {
 					if (originList.get(i).getTitle() != tf.getText() && 
-					    originList.get(i).getAuthor() != tf.getText() &&
-					    originList.get(i).getCatalog() != tf.getText())
-					    	originList.remove(i);
+							originList.get(i).getAuthor() != tf.getText() &&
+							originList.get(i).getCatalog() != tf.getText())
+						originList.remove(i);
 				}
 				mainWindow.dispose();
 				loadMainApp();
@@ -446,7 +447,7 @@ public class MainApp {
 		pf.setBounds(20,125,200,40);
 		return pf;
 	}
-	
+
 	private JComboBox<String> addSortBox() {
 		String sortOptions[]  = {"Sort By", "Title A-Z", "Title Z-A"};
 		JComboBox<String> cb = new JComboBox<String>(sortOptions);
@@ -473,10 +474,10 @@ public class MainApp {
 		});
 		return cb;
 	}
-	
+
 	private JComboBox<String> addFilterBox() {
 		String filterOptions[]  = {"Filter Genre", "Fiction", "NonFiction", "Autobiography", "Biography", "Crime", "Drama",
-									"Fantasy", "History", "Horror", "Mystery", "Romance", "SciFi", "Thriller"};
+				"Fantasy", "History", "Horror", "Mystery", "Romance", "SciFi", "Thriller"};
 		JComboBox<String> cb = new JComboBox<String>(filterOptions);
 		cb.setBounds(210, 60, 103, 30);
 		cb.addActionListener(new ActionListener() {
@@ -500,7 +501,7 @@ public class MainApp {
 		});
 		return cb;
 	}
-	
+
 	private JButton addLoginButton() {
 		JButton b = new JButton("Login");
 		b.setBounds(420, 10, 100, 40);
@@ -532,7 +533,7 @@ public class MainApp {
 		b.setBounds(120, 180, 100, 50);
 		return b;
 	}
-	
+
 	private JLabel addLoginFailed() {
 		JLabel l = new JLabel("Invalid Credentials");
 		l.setBounds(420,50,125,20);
