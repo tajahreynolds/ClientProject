@@ -4,6 +4,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.*;
@@ -55,6 +57,7 @@ public class MainApp {
 		
 		//Adding the books to the main page, each is responsive and opens a new window with details about the book
 		List<Book> originList = fetchData.FetchAllWithoutFilter();
+		Collections.sort(originList);
 		for (int i = 0; i < originList.size() && i < 5; i++) {
 			JButton b = new JButton(originList.get(i).getTitle());
 			b.setBounds(20, 100 + i*80, 500, 60);
@@ -283,6 +286,14 @@ public class MainApp {
 	private JComboBox<String> addSortBox() {
 		String sortOptions[]  = {"Title A-Z", "Title Z-A", "Date Published"};
 		JComboBox<String> cb = new JComboBox<String>(sortOptions);
+		cb.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getActionCommand().equals("A-Z")) {
+					
+				}
+			}
+		});
 		cb.setBounds(170, 50, 100, 39);
 		return cb;
 	}
