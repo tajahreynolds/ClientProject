@@ -450,6 +450,7 @@ public class MainApp {
 	private JComboBox<String> addSortBox() {
 		String sortOptions[]  = {"Sort By", "Title A-Z", "Title Z-A"};
 		JComboBox<String> cb = new JComboBox<String>(sortOptions);
+		cb.setBounds(137, 50, 70, 40);
 		cb.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -468,6 +469,30 @@ public class MainApp {
 		});
 		return cb;
 	}
+	
+	private JComboBox<String> addFilterBox() {
+		String filterOptions[]  = {"Filter Genre", "Fiction", "NonFiction", "Autobiography", "Biography", "Crime", "Drama",
+									"Fantasy", "History", "Horror", "Mystery", "Romance", "SciFi", "Thriller"};
+		JComboBox<String> cb = new JComboBox<String>(filterOptions);
+		cb.setBounds(210, 50, 103, 40);
+		cb.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switch(cb.getSelectedIndex()) {
+				case 0:
+					originList = fetchData.FetchAllWithoutFilter();
+					loadMainApp();
+					break;
+				default:
+					originList = fetchData.FetchAllWithFilter(cb.getItemAt(cb.getSelectedIndex()));
+					loadMainApp();
+					break;
+				}
+			}
+		});
+		return cb;
+	}
+	
 	private JButton addLoginButton() {
 		JButton b = new JButton("Login");
 		b.setBounds(420, 10, 100, 40);
