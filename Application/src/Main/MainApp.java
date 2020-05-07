@@ -116,7 +116,6 @@ public class MainApp {
 					public void actionPerformed(ActionEvent e) {
 						PersonalBookShelf pbs = new PersonalBookShelf(userId, b.getBookId(), 0);
 						if(fetchData.insertData(pbs, "PersonalBookShelf")) {
-							System.out.println("Success");
 							addedMessage.setVisible(true);
 						}
 					}
@@ -161,7 +160,6 @@ public class MainApp {
 				loginEnter.addActionListener(new AbstractAction("close") {
 					public void actionPerformed(ActionEvent e) {
 						userId = fetchData.verifyPassword(user.getText(), pass.getText());
-						System.out.println(userId);
 						loginWindow.dispose();
 						if(userId != -1) {
 							isLogin = true;
@@ -227,11 +225,11 @@ public class MainApp {
 				if(userBookList != null) {
 					for (int i = 0; i < userBookList.size() && i < 5; i++) {
 						JButton b = new JButton(userBookList.get(i).getTitle());
-						b.setBounds(20, 100 + i*60, 300, 40);
+						b.setBounds(20, 100 + i*60, 270, 40);
 						b.addActionListener(popNewBookWindow(userBookList.get(i)));
 						int bookId = userBookList.get(i).getBookId();
 						JButton delete = new JButton("Delete");
-						delete.setBounds(350, 100 + i*60, 100, 40);
+						delete.setBounds(330, 100 + i*60, 100, 40);
 						delete.addActionListener(new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) {
@@ -239,9 +237,30 @@ public class MainApp {
 								personalBookList.dispose();
 							}
 						});
+
+						JLabel readed = new JLabel("Readed");
+						readed.setBounds(440, 100 + i*60, 80, 40);
+						JButton read = new JButton("Read");
+						read.setBounds(440, 100 + i*60, 80, 40);
+						if(fetchData.IfBookReaded(userId, bookId)) {
+							read.setVisible(false);
+						} else {
+							readed.setVisible(false);
+						}
+						read.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								fetchData.MarkBookAsRead(userId, bookId);
+								readed.setVisible(true);
+								read.setVisible(false);
+							}
+						});
+						
 						
 						personalBookList.add(b);
 						personalBookList.add(delete);
+						personalBookList.add(read);
+						personalBookList.add(readed);
 					}
 				}
 					

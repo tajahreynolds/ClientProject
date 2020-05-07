@@ -134,6 +134,28 @@ public class FetchData {
 		}
 	}
 	
+	public void MarkBookAsRead(int userId, int bookId) {
+		String query = "UPDATE PersonalBookShelf SET isRead = 1 WHERE userId = " + userId + " AND bookId = " + bookId;
+		try {
+			Statement stmt = conn.createStatement();
+			stmt.executeQuery(query);
+		} catch (SQLException e) {
+			new WriteExceptionToLog(e.getMessage());
+		}
+	}
+	
+	public boolean IfBookReaded(int userId, int bookId) {
+		String query = "SELECT * FROM PersonalBookShelf WHERE userId = " + userId + " AND bookId = " + bookId;
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			return rs.getInt("isRead") == 1;
+		} catch (SQLException e) {
+			// new WriteExceptionToLog(e.getMessage());
+			return false;
+		}
+	}
+	
 	public boolean insertData(Object o, String dataType) {
 		try {
 			String query = null;
