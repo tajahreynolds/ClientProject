@@ -31,7 +31,7 @@ public class MainApp {
 	JLabel loginFail;
 	JFrame mainWindow;
 	List<Book> originList;
-	boolean loadedList = false, filtered = false;
+	boolean loadedList = false;
 	
 	public MainApp() {
 		loadMainApp();
@@ -72,9 +72,6 @@ public class MainApp {
 		if (!loadedList) {
 			originList = fetchData.FetchAllWithoutFilter();
 			loadedList = true;
-		}
-		if (filtered) {
-			//TODO
 		}
 		for (int i = 0; i < originList.size() && i < 5; i++) {
 			JButton b = new JButton(originList.get(i).getTitle());
@@ -128,13 +125,9 @@ public class MainApp {
 				date.setBounds(100,150,400,40);
 				date.setFont(new Font("Helvetica", Font.BOLD, 24));
 				
-				JLabel genre = new JLabel("Genre: " + b.getCatalog());
-				genre.setBounds(100,200,400,40);
-				genre.setFont(new Font("Helvetica", Font.BOLD, 24));
-				
 				String websiteLink = "https://en.wikipedia.org/wiki/" + b.getAuthor().replace(' ', '_');
 				JLabel link = new JLabel("Link: " + websiteLink);
-				link.setBounds(100,250,400,40);
+				link.setBounds(100,200,400,40);
 				link.setFont(new Font("Helvetica", Font.BOLD, 15));
 				
 				JLabel addedMessage = new JLabel("Added to your list.");
@@ -190,7 +183,6 @@ public class MainApp {
 				bookDetail.add(addToPersonalList);
 				bookDetail.add(bookTitle);
 				bookDetail.add(date);
-				bookDetail.add(genre);
 				bookDetail.add(link);
 				bookDetail.add(author);
 				bookDetail.add(close);
@@ -356,7 +348,7 @@ public class MainApp {
 				ja2.setBounds(20, 130, 300, 40);
 				JTextField ja3 = new JTextField("Publish Date:");
 				ja3.setBounds(20, 180, 300, 40);
-				JTextField ja4 = new JTextField("Genre:");
+				JTextField ja4 = new JTextField("Catalog:");
 				ja4.setBounds(20, 230, 300, 40);
 				
 				JButton b = new JButton("Push");
@@ -400,7 +392,7 @@ public class MainApp {
 		try {
 			PrintWriter pw = new PrintWriter(new File("waitlist.txt"));
 			pw.append(b.prepInsertQuery() + "\n");
-			System.out.println("Added to waitlist");
+			System.out.println("111");
 			pw.flush();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -422,6 +414,15 @@ public class MainApp {
 	}	
 	private JTextField addSearchField() {
 		JTextField tf = new JTextField("Search...");
+		tf.addActionListener(new ActionLister() {
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < originList.size(); i++) {
+					if (i.getTitle() != tf.getText();
+					    originList.remove(i);
+				}
+				loadMainApp();
+			}
+		});
 		tf.setBounds(10,50,150,40);
 		return tf;
 	}
@@ -435,20 +436,27 @@ public class MainApp {
 		pf.setBounds(20,125,200,40);
 		return pf;
 	}
-	
 	private JComboBox<String> addSortBox() {
-		String sortOptions[]  = {"Sort By", "Title A-Z", "Title Z-A"};
+		String sortOptions[]  = {"Title A-Z", "Title Z-A"};
 		JComboBox<String> cb = new JComboBox<String>(sortOptions);
-		cb.setBounds(170, 50, 70, 39);
+		cb.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getActionCommand().equals("A-Z")) {
+					
+				}
+			}
+		});
+		cb.setBounds(170, 50, 100, 39);
 		cb.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				switch(cb.getSelectedIndex()) {
-				case 1:
+				case 0:
 					Collections.sort(originList);
 					loadMainApp();
 					break;
-				case 2:
+				case 1:
 					Collections.sort(originList, Collections.reverseOrder());
 					loadMainApp();
 					break;
@@ -458,11 +466,6 @@ public class MainApp {
 		});
 		return cb;
 	}
-	
-	private JComboBox<String> addFilterBox() {
-		return null;
-	}
-	
 	private JButton addLoginButton() {
 		JButton b = new JButton("Login");
 		b.setBounds(420, 10, 100, 40);
@@ -475,13 +478,13 @@ public class MainApp {
 		return b;
 	}
 	private JButton addPersonalListButton() {
-		JButton b = new JButton("Bookshelf");
-		b.setBounds(315, 10, 100, 40);
+		JButton b = new JButton("Personal");
+		b.setBounds(300, 10, 100, 40);
 		return b;
 	}
 	private JButton addRequestNewBookButton() {
-		JButton b = new JButton("Request A Book");
-		b.setBounds(315, 60, 205, 30);
+		JButton b = new JButton("Pull new request");
+		b.setBounds(300, 60, 220, 30);
 		return b;
 	}
 	private JButton addLoginEnterButton() {
