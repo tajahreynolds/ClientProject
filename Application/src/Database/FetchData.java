@@ -66,15 +66,16 @@ public class FetchData {
 
 	// userId if success, -1 if failed
 	public int verifyPassword(String userName, String password) {
+		int ret = -1;
 		String query = "SELECT * FROM Login WHERE userName = '" + userName + "' AND password = '" + password + "'";
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-			return rs.getInt("userId");
+			ret = rs.getInt("userId");
 		} catch (SQLException e) {
 			new WriteExceptionToLog(e.getMessage());
 		}
-		return -1;
+		return ret;
 	}
 
 	public List<Book> FetchByUserId (int userId) {
