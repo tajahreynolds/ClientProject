@@ -64,6 +64,31 @@ public class FetchData {
 		return null;
 	}
 
+	public List<Book> FetchAllWithFilter(String catalog) {
+		String query = "SELECT * FROM Book WHERE catalog = '" + catalog + "'";
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			return convert(rs);
+		} catch (SQLException e) {
+			new WriteExceptionToLog(e.getMessage());
+		}
+		return null;
+	}
+	
+	public List<String> FetchCatalogList() {
+		List<Book> bookList = FetchAllWithoutFilter();
+		if(bookList == null)
+			return null;
+		List<String> catalogList = new ArrayList<String>();
+		for (Book b : bookList) {
+			if(!catalogList.contains(b.getCatalog())) {
+				catalogList.add(b.getCatalog());
+			}
+		}
+		return catalogList;
+	}	
+	
 	// userId if success, -1 if failed
 	public int verifyPassword(String userName, String password) {
 		int ret = -1;
