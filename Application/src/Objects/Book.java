@@ -1,6 +1,6 @@
 package Objects;
 
-public class Book {
+public class Book implements Comparable<Book> {
 	
 	private int bookId;
 	private String catalog;
@@ -29,6 +29,7 @@ public class Book {
 				+ ", publishDate=" + publishDate + ", pageCount=" + pageCount + "]";
 	}
 
+	
 	public int getBookId() {
 		return bookId;
 	}
@@ -51,6 +52,11 @@ public class Book {
 
 	public int getPageCount() {
 		return pageCount;
+	}
+
+	@Override
+	public int compareTo(Book o) {
+		return this.title.compareTo(o.title);
 	}
 
 }

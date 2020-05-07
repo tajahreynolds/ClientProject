@@ -64,6 +64,31 @@ public class FetchData {
 		return null;
 	}
 
+	public List<Book> FetchAllWithFilter(String catalog) {
+		String query = "SELECT * FROM Book WHERE catalog = '" + catalog + "'";
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			return convert(rs);
+		} catch (SQLException e) {
+			new WriteExceptionToLog(e.getMessage());
+		}
+		return null;
+	}
+	
+	public List<String> FetchCatalogList() {
+		List<Book> bookList = FetchAllWithoutFilter();
+		if(bookList == null)
+			return null;
+		List<String> catalogList = new ArrayList<String>();
+		for (Book b : bookList) {
+			if(!catalogList.contains(b.getCatalog())) {
+				catalogList.add(b.getCatalog());
+			}
+		}
+		return catalogList;
+	}	
+	
 	// userId if success, -1 if failed
 	public int verifyPassword(String userName, String password) {
 		int ret = -1;
@@ -106,6 +131,28 @@ public class FetchData {
 			stmt.executeQuery(query);
 		} catch (SQLException e) {
 			new WriteExceptionToLog(e.getMessage());
+		}
+	}
+	
+	public void MarkBookAsRead(int userId, int bookId) {
+		String query = "UPDATE PersonalBookShelf SET isRead = 1 WHERE userId = " + userId + " AND bookId = " + bookId;
+		try {
+			Statement stmt = conn.createStatement();
+			stmt.executeQuery(query);
+		} catch (SQLException e) {
+			new WriteExceptionToLog(e.getMessage());
+		}
+	}
+	
+	public boolean IfBookReaded(int userId, int bookId) {
+		String query = "SELECT * FROM PersonalBookShelf WHERE userId = " + userId + " AND bookId = " + bookId;
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			return rs.getInt("isRead") == 1;
+		} catch (SQLException e) {
+			// new WriteExceptionToLog(e.getMessage());
+			return false;
 		}
 	}
 	
