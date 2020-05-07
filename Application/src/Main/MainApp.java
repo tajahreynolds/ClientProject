@@ -425,10 +425,10 @@ public class MainApp {
 			public void actionPerformed(ActionEvent e) {
 				reloadList();
 				for (int i = 0; i < originList.size(); i++) {
-					if (originList.get(i).getTitle() != tf.getText() && 
-							originList.get(i).getAuthor() != tf.getText() &&
-							originList.get(i).getCatalog() != tf.getText())
+					if (!originList.get(i).toString().contains(tf.getText())) {
 						originList.remove(i);
+						i--;
+					}
 				}
 				mainWindow.dispose();
 				loadMainApp();
