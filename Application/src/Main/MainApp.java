@@ -284,6 +284,14 @@ public class MainApp {
 		String sortOptions[]  = {"Title A-Z", "Title Z-A", "Date Published"};
 		JComboBox<String> cb = new JComboBox<String>(sortOptions);
 		cb.setBounds(170, 50, 100, 39);
+		cb.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (e.getActionCommand().equals("A-Z")) {
+					
+				}
+			}
+		});
 		return cb;
 	}
 	private JButton addLoginButton() {
