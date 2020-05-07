@@ -427,7 +427,7 @@ public class MainApp {
 		tf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for (int i = 0; i < originList.size(); i++) {
-					if (originList.get(i).getTitle() != tf.getText();
+					if (originList.get(i).getTitle() != tf.getText())
 					    originList.remove(i);
 				}
 				loadMainApp();
