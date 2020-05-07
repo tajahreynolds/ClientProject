@@ -163,7 +163,7 @@ public class MainApp {
 				JButton removeBookFromList = new JButton("remove");
 				removeBookFromList.setBounds(310, 300, 150, 75);
 				removeBookFromList.setVisible(false);
-				if(userType != null && userType.equals("admin")) {
+				if(isLogin == true && userType != null && userType.equals("admin")) {
 					removeBookFromList.setVisible(true);
 				}
 				removeBookFromList.addActionListener(new ActionListener() {
