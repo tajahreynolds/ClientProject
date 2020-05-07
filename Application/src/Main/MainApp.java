@@ -30,6 +30,8 @@ public class MainApp {
 	JButton loginButton, logoutButton, personalBookListButton, newBookRequestButton;
 	JLabel loginFail;
 	JFrame mainWindow;
+	List<Book> originList;
+	boolean loadedList = false;
 	
 	public MainApp() {
 		loadMainApp();
@@ -67,8 +69,10 @@ public class MainApp {
 		newBookRequestButton.addActionListener(popNewRequestWindow());
 		
 		//Adding the books to the main page, each is responsive and opens a new window with details about the book
-		List<Book> originList = fetchData.FetchAllWithoutFilter();
-		Collections.sort(originList);
+		if (!loadedList) {
+			originList = fetchData.FetchAllWithoutFilter();
+			loadedList = true;
+		}
 		for (int i = 0; i < originList.size() && i < 5; i++) {
 			JButton b = new JButton(originList.get(i).getTitle());
 			b.setBounds(20, 100 + i*80, 500, 60);
@@ -285,7 +289,7 @@ public class MainApp {
 							}
 						});
 
-						JLabel readed = new JLabel("Readed");
+						JLabel readed = new JLabel("Book Read");
 						readed.setBounds(440, 100 + i*60, 80, 40);
 						JButton read = new JButton("Read");
 						read.setBounds(440, 100 + i*60, 80, 40);
@@ -424,7 +428,7 @@ public class MainApp {
 		return pf;
 	}
 	private JComboBox<String> addSortBox() {
-		String sortOptions[]  = {"Title A-Z", "Title Z-A", "Date Published"};
+		String sortOptions[]  = {"Title A-Z", "Title Z-A"};
 		JComboBox<String> cb = new JComboBox<String>(sortOptions);
 		cb.addActionListener(new ActionListener() {
 			@Override
@@ -438,8 +442,16 @@ public class MainApp {
 		cb.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (e.getActionCommand().equals("A-Z")) {
-					
+				switch(cb.getSelectedIndex()) {
+				case 0:
+					Collections.sort(originList);
+					loadMainApp();
+					break;
+				case 1:
+					Collections.sort(originList, Collections.reverseOrder());
+					loadMainApp();
+					break;
+				default:
 				}
 			}
 		});
