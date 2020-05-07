@@ -414,6 +414,15 @@ public class MainApp {
 	}	
 	private JTextField addSearchField() {
 		JTextField tf = new JTextField("Search...");
+		tf.addActionListener(new ActionLister() {
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < originList.size(); i++) {
+					if (originList.get(i).getTitle() != tf.getText();
+					    originList.remove(i);
+				}
+				loadMainApp();
+			}
+		});
 		tf.setBounds(10,50,150,40);
 		return tf;
 	}

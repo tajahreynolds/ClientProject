@@ -1,1 +1,1 @@
-INSERT INTO Book (catalog, title, author, publishDate, pageCount) VALUES('Catalog:', 'Title:', 'Author:', 'Publish Date:', '1')
+INSERT INTO Book (catalog, title, author, publishDate, pageCount) VALUES('Fantasy', 'Harry Potter and the Sorcerer's Stone', 'J. K. Rowling', '6/26/1997', '-1')
