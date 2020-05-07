@@ -422,12 +422,14 @@ public class MainApp {
 		JTextField tf = new JTextField("Search...");
 		tf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				reloadList();
 				for (int i = 0; i < originList.size(); i++) {
 					if (originList.get(i).getTitle() != tf.getText() && 
 					    originList.get(i).getAuthor() != tf.getText() &&
 					    originList.get(i).getCatalog() != tf.getText())
 					    	originList.remove(i);
 				}
+				mainWindow.dispose();
 				loadMainApp();
 			}
 		});
@@ -454,11 +456,15 @@ public class MainApp {
 			public void actionPerformed(ActionEvent e) {
 				switch(cb.getSelectedIndex()) {
 				case 1:
+					reloadList();
 					Collections.sort(originList);
+					mainWindow.dispose();
 					loadMainApp();
 					break;
 				case 2:
+					reloadList();
 					Collections.sort(originList, Collections.reverseOrder());
+					mainWindow.dispose();
 					loadMainApp();
 					break;
 				default:
@@ -478,11 +484,15 @@ public class MainApp {
 			public void actionPerformed(ActionEvent e) {
 				switch(cb.getSelectedIndex()) {
 				case 0:
+					reloadList();
 					originList = fetchData.FetchAllWithoutFilter();
+					mainWindow.dispose();
 					loadMainApp();
 					break;
 				default:
+					reloadList();
 					originList = fetchData.FetchAllWithFilter(cb.getItemAt(cb.getSelectedIndex()));
+					mainWindow.dispose();
 					loadMainApp();
 					break;
 				}
