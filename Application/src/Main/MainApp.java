@@ -24,6 +24,7 @@ public class MainApp {
 	private int userId;
 	JButton loginButton, logoutButton, personalBookListButton;
 	FetchData fetchData;
+	JLabel loginFail;
 	
 	public MainApp() {
 		JFrame mainWindow = new JFrame("Book Broker");
@@ -48,6 +49,7 @@ public class MainApp {
 		});
 		loginButton.addActionListener(popNewLoginWindow());
 		
+		loginFail = addLoginFailed();
 		personalBookListButton = addPersonalListButton();
 		personalBookListButton.addActionListener(popNewPersonalBookWindow());
 		
@@ -67,7 +69,9 @@ public class MainApp {
 		mainWindow.add(loginButton);
 		mainWindow.add(logoutButton);
 		mainWindow.add(personalBookListButton);
+		mainWindow.add(loginFail);
 		personalBookListButton.setVisible(false);
+		loginFail.setVisible(false);
 		
 		mainWindow.setLayout(null);
 		mainWindow.setSize(550, 600);
@@ -154,16 +158,19 @@ public class MainApp {
 				loginEnter.addActionListener(new AbstractAction("close") {
 					public void actionPerformed(ActionEvent e) {
 						userId = fetchData.verifyPassword(user.getText(), pass.getText());
+						System.out.println(userId);
 						loginWindow.dispose();
 						if(userId != -1) {
 							isLogin = true;
 							logoutButton.setVisible(true);
 							loginButton.setVisible(false);
 							personalBookListButton.setVisible(true);
+							loginFail.setVisible(false);
 						} else {
 							logoutButton.setVisible(false);
 							loginButton.setVisible(true);
 							personalBookListButton.setVisible(false);
+							loginFail.setVisible(true);
 						}
 							
 					}
@@ -268,10 +275,10 @@ public class MainApp {
 		tf.setBounds(20,75,200,40);
 		return tf;
 	}
-	private JTextField addPassField() {
-		JTextField tf = new JTextField("Password");
-		tf.setBounds(20,125,200,40);
-		return tf;
+	private JPasswordField addPassField() {
+		JPasswordField pf = new JPasswordField("Password");
+		pf.setBounds(20,125,200,40);
+		return pf;
 	}
 	private JComboBox<String> addSortBox() {
 		String sortOptions[]  = {"Title A-Z", "Title Z-A", "Date Published"};
@@ -306,4 +313,10 @@ public class MainApp {
 		return b;
 	}
 	
+	private JLabel addLoginFailed() {
+		JLabel l = new JLabel("Invalid Credentials");
+		l.setBounds(420,50,125,20);
+		l.setFont(new Font("Helvetica", Font.ITALIC, 12));
+		return l;
+	}	
 }
