@@ -424,6 +424,15 @@ public class MainApp {
 	}	
 	private JTextField addSearchField() {
 		JTextField tf = new JTextField("Search...");
+		tf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < originList.size(); i++) {
+					if (originList.get(i).getTitle() != tf.getText();
+					    originList.remove(i);
+				}
+				loadMainApp();
+			}
+		});
 		tf.setBounds(10,50,125,40);
 		return tf;
 	}
@@ -441,7 +450,6 @@ public class MainApp {
 	private JComboBox<String> addSortBox() {
 		String sortOptions[]  = {"Sort By", "Title A-Z", "Title Z-A"};
 		JComboBox<String> cb = new JComboBox<String>(sortOptions);
-		cb.setBounds(137, 50, 70, 40);
 		cb.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -460,21 +468,6 @@ public class MainApp {
 		});
 		return cb;
 	}
-	
-	private JComboBox<String> addFilterBox() {
-		String filterOptions[]  = {"Filter Genre", "Fiction", "NonFiction", "Autobiography", "Biography", "Crime", "Drama",
-									"Fantasy", "History", "Horror", "Mystery", "Romance", "SciFi", "Thriller"};
-		JComboBox<String> cb = new JComboBox<String>(filterOptions);
-		cb.setBounds(210, 50, 103, 40);
-		cb.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		return cb;
-	}
-	
 	private JButton addLoginButton() {
 		JButton b = new JButton("Login");
 		b.setBounds(420, 10, 100, 40);

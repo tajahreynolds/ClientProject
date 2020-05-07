@@ -79,26 +79,6 @@ class BookListTest {
 	}
 	
 	@Test
-	void testContains() {
-		//create and test an empty list
-		l1 = new BookList();
-		assertTrue(l1.isEmpty());
-		assertEquals(0, l1.getLength());
-						
-		//Add to set and Test
-		l1.add(b1);
-		l1.add(b2);
-		l1.add(b3);
-		assertFalse(l1.isEmpty());
-		assertEquals(l1.getLength(), 3);
-		
-		//Test Contains
-		assertTrue(l1.contains(b1));
-		assertTrue(l1.contains(b2));
-		assertTrue(l1.contains(b3));
-	}
-	
-	@Test
 	void testRemove() {
 		//create and test an empty list
 		l1 = new BookList();
@@ -251,5 +231,22 @@ class BookListTest {
 		assertTrue(testArray[0].equals(l1.getEntry(1)));
 		assertTrue(testArray[1].equals(l1.getEntry(2)));
 		assertTrue(testArray[2].equals(l1.getEntry(3)));
+	}
+	
+	@Test
+	void testContains() {
+		//create and test an empty list
+		l1 = new BookList();
+		assertTrue(l1.isEmpty());
+		assertEquals(0, l1.getLength());
+				
+		//Add to set and Test
+		l1.add(b1);
+		l1.add(b2);
+		assertTrue(l1.contains(b1));
+		assertTrue(l1.contains(b2));
+		assertFalse(l1.contains(b3));
+		assertFalse(l1.isEmpty());
+		assertEquals(l1.getLength(), 2);
 	}
 }
